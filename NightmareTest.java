@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class NightmareTest {
+public class ExceptionalTest { ///of ExceptionalLoop
   private static int incrementStart = 100; //smallest list
   private static int loopIncrement = 10; // small*inc each test
   private static int incrementCount = 6; // number of tests
@@ -8,14 +8,14 @@ public class NightmareTest {
 
 
   public static void main(String[] args) throws Exception {
-    NightmareTest test = new NightmareTest();
+    ExceptionalTest test = new ExceptionalTest();
     int[] input = {1,2,3};
     long time = System.currentTimeMillis();
     ArrayList<int[]> testSets = new ArrayList<int[]>();
     int[][] testArrays = new int[incrementCount][incrementStart^loopIncrement];
 
     ArrayList<Long> normalTiming = new ArrayList<Long>();
-    ArrayList<Long> nightmareTiming = new ArrayList<Long>();
+    ArrayList<Long> exceptionalTiming = new ArrayList<Long>();
 
     int runSize = incrementStart;
     for(int i = 0; i < incrementCount; i++) {
@@ -37,10 +37,10 @@ public class NightmareTest {
       normalTiming.add(new Long(time));                             //normal loop
 
       time = System.nanoTime();
-      foundB = test.nightmare(testRun);
+      foundB = test.exceptional(testRun);
       time = System.nanoTime()-time;
       //System.out.print(found + "\b\b\b\b\b");
-      nightmareTiming.add(new Long(time));                       //nightmare loop
+      exceptionalTiming.add(new Long(time));                       //nightmare loop
 
       if(foundA != foundB) {
         System.out.print("Anomilous result found.");
@@ -53,7 +53,7 @@ public class NightmareTest {
     {
       runSize *= loopIncrement;
       System.out.println("Test " + runSize + ":    \t" + normalTiming.get(i)
-                       + "             " + nightmareTiming.get(i) );
+                       + "             " + exceptionalTiming.get(i) );
     }                                                          //print results
 
   }//main
@@ -69,7 +69,7 @@ public class NightmareTest {
     return false;
   }
 //linear search for 0 in list, the bad way
-  private boolean nightmare(int[] input) {
+  private boolean exceptional(int[] input) {
     try {
       int i = 0;
       while (true) {
