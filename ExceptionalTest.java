@@ -12,17 +12,18 @@ public class ExceptionalTest { ///of ExceptionalLoop
     int[] input = {1,2,3};
     long time = System.currentTimeMillis();
     ArrayList<int[]> testSets = new ArrayList<int[]>();
-    int[][] testArrays = new int[incrementCount][incrementStart^loopIncrement];
+    ArrayList<int[]> testArrays = new ArrayList<int[]>();
 
     ArrayList<Long> normalTiming = new ArrayList<Long>();
     ArrayList<Long> exceptionalTiming = new ArrayList<Long>();
 
     int runSize = incrementStart;
     for(int i = 0; i < incrementCount; i++) {
-      ArrayList<Integer> thisSet = new ArrayList<Integer>();
+      int[] thisSet = new int[runSize];
       for(int j = 0; j < runSize; j++) {
-        testArrays[i][j] = rng.nextInt();
+        thisSet[j] = rng.nextInt();
       }
+      testArrays.add(thisSet);
       runSize *= loopIncrement;
     }                                                            //Setup tests
 
