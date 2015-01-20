@@ -11,6 +11,14 @@ public class ExceptionalTest { ///of ExceptionalLoop
   private static ArrayList<int[]> testArrays = new ArrayList<int[]>();
   private static ArrayList<Long> normalTiming = new ArrayList<Long>();
   private static ArrayList<Long> exceptionalTiming = new ArrayList<Long>();
+  private static int coreCount = Runtime.getRuntime().availableProcessors();
+  private static String os = System.getProperty("os.name");
+  private static String osVersion = System.getProperty("os.version");
+  private static String arch = System.getProperty("os.arch");
+  private static String jVendor = System.getProperty("java.vendor");
+  private static String jVersion = System.getProperty("java.version");
+  private static String jVm = System.getProperty("java.vm.name");
+
 
   public static void main(String[] args) throws Exception {
     ExceptionalTest test = new ExceptionalTest();
@@ -98,7 +106,10 @@ public class ExceptionalTest { ///of ExceptionalLoop
 //      runSize *= loopIncrement;
     }
 
-    System.out.println("\nDIV:"+(testIterations-warmup));
+    System.out.println("\nResults for: "+jVm+" / "+jVendor+" ("+jVersion+") running "
+        +os+" ("+osVersion+") on "+arch+" with "+coreCount+" cores.");
+
+
     for(int i = 0; i < incrementCount; i++) {
       normalAverage[i] = normalAverage[i]/(testIterations-warmup);
       exceptionalAverage[i] = exceptionalAverage[i]/(testIterations-warmup);
