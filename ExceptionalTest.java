@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class ExceptionalTest { ///of ExceptionalLoop
-  private static int incrementStart = 1000; //smallest list
+  private static int incrementStart = 100; //smallest list
   private static int loopIncrement = 10; // small*inc each test
-  private static int incrementCount = 6; // number of tests
+  private static int incrementCount = 7; // number of tests
   private static Random rng = new Random();
   private static long time;
   private static ArrayList<int[]> testArrays = new ArrayList<int[]>();
@@ -12,12 +12,12 @@ public class ExceptionalTest { ///of ExceptionalLoop
 
   public static void main(String[] args) throws Exception {
     ExceptionalTest test = new ExceptionalTest();
-
     test.setup();
+    System.out.print("Starting tests:");
 
-    System.out.println("Starting tests:");
     boolean foundA, foundB;
     for (int[] testRun : testArrays) {  //need to use same kind of 'run' loop as above
+      System.out.print("*");
       time = System.nanoTime();
       foundA = test.normal(testRun);
       time = System.nanoTime()-time;
@@ -33,20 +33,10 @@ public class ExceptionalTest { ///of ExceptionalLoop
       }
     }
 
-    System.out.println("Test size \t   normal \t nightmare: ");
-    int runSize = incrementStart;
-    for(int i = 0; i < incrementCount; i++)
-    {
-      runSize *= loopIncrement;
-      System.out.println("Test " + runSize + ":    \t" + normalTiming.get(i)
-                       + "             " + exceptionalTiming.get(i) );
-    }                                                          //print results
-
+    test.displayResults();
   }//main
 
-
-//linear search for 0 in list.
-  private boolean normal(int[] input) {
+  private boolean normal(int[] input) { //linear search for 0 in list.
     for (int i = 0; i < input.length; i++) {
       if(input[i++] == 0) {
         return true;
@@ -54,8 +44,8 @@ public class ExceptionalTest { ///of ExceptionalLoop
     }
     return false;
   }
-//linear search for 0 in list, the bad way
-  private boolean exceptional(int[] input) {
+
+  private boolean exceptional(int[] input) { //linear search for 0 in list, the bad way
     try {
       int i = 0;
       while (true) {
@@ -69,8 +59,6 @@ public class ExceptionalTest { ///of ExceptionalLoop
     }
   }
 
-
-
   private void setup() {
     int runSize = incrementStart;
     for(int i = 0; i < incrementCount; i++) {
@@ -80,10 +68,20 @@ public class ExceptionalTest { ///of ExceptionalLoop
       }
       testArrays.add(thisSet);
       runSize *= loopIncrement;
-    }                                                            //Setup tests
-  }
+    }
+  }//Setup
 
+  private void displayResults() {
+    System.out.println("\nTest size \t   Normal \t Exceptional: ");
+    int runSize = incrementStart;
+    for(int i = 0; i < incrementCount; i++)
+    {
+      runSize *= loopIncrement;
+      System.out.println("Test " + runSize + ":    \t" + normalTiming.get(i)
+                       + "             " + exceptionalTiming.get(i) );
+    }
+  }//print results
 
-}
+}//class
 
 
