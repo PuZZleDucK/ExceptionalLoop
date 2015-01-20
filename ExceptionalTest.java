@@ -44,16 +44,15 @@ public class ExceptionalTest {
   }
 
   private boolean exceptional(int[] input) { //linear search for 0 in list, the bad way
-    try {
-      int i = 0;
-      while (true) {
+    int i = 0;
+    while (true) {
+      try {
         if(input[i++] == 0) {
           return true;
         }
+      } catch (ArrayIndexOutOfBoundsException e) {
+        return false;
       }
-    } catch (ArrayIndexOutOfBoundsException e) {
-      // we are done
-      return false;
     }
   }
 
