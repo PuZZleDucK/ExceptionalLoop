@@ -1,30 +1,19 @@
 import java.util.*;
 
 public class ExceptionalTest { ///of ExceptionalLoop
-  private static int incrementStart = 100; //smallest list
+  private static int incrementStart = 1000; //smallest list
   private static int loopIncrement = 10; // small*inc each test
   private static int incrementCount = 6; // number of tests
   private static Random rng = new Random();
   private static long time;
-
+  private static ArrayList<int[]> testArrays = new ArrayList<int[]>();
+  private static ArrayList<Long> normalTiming = new ArrayList<Long>();
+  private static ArrayList<Long> exceptionalTiming = new ArrayList<Long>();
 
   public static void main(String[] args) throws Exception {
     ExceptionalTest test = new ExceptionalTest();
-    ArrayList<int[]> testSets = new ArrayList<int[]>();
-    ArrayList<int[]> testArrays = new ArrayList<int[]>();
 
-    ArrayList<Long> normalTiming = new ArrayList<Long>();
-    ArrayList<Long> exceptionalTiming = new ArrayList<Long>();
-
-    int runSize = incrementStart;
-    for(int i = 0; i < incrementCount; i++) {
-      int[] thisSet = new int[runSize];
-      for(int j = 0; j < runSize; j++) {
-        thisSet[j] = rng.nextInt();
-      }
-      testArrays.add(thisSet);
-      runSize *= loopIncrement;
-    }                                                            //Setup tests
+    test.setup();
 
     System.out.println("Starting tests:");
     boolean foundA, foundB;
@@ -45,7 +34,7 @@ public class ExceptionalTest { ///of ExceptionalLoop
     }
 
     System.out.println("Test size \t   normal \t nightmare: ");
-    runSize = incrementStart;
+    int runSize = incrementStart;
     for(int i = 0; i < incrementCount; i++)
     {
       runSize *= loopIncrement;
@@ -80,6 +69,19 @@ public class ExceptionalTest { ///of ExceptionalLoop
     }
   }
 
+
+
+  private void setup() {
+    int runSize = incrementStart;
+    for(int i = 0; i < incrementCount; i++) {
+      int[] thisSet = new int[runSize];
+      for(int j = 0; j < runSize; j++) {
+        thisSet[j] = rng.nextInt();
+      }
+      testArrays.add(thisSet);
+      runSize *= loopIncrement;
+    }                                                            //Setup tests
+  }
 
 
 }
