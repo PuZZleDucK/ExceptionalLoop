@@ -100,6 +100,7 @@ public class ExceptionalTest {
         +String.format("%1$,12d", normalAverage[i])+"\t"
         +String.format("%1$,12d", exceptionalAverage[i]));
     }
+    System.out.println("");
   }//print results
 
 }//class
