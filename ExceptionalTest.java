@@ -1,9 +1,10 @@
 import java.util.*;
 
 public class ExceptionalTest { ///of ExceptionalLoop
-  private static int incrementStart = 100; //smallest list
+  private static int incrementStart = 10000; //smallest list
   private static int loopIncrement = 10; // small*inc each test
-  private static int incrementCount = 7; // number of tests
+  private static int incrementCount = 5; // number of tests
+  private static int testIterations = 3;
   private static Random rng = new Random();
   private static long time;
   private static ArrayList<int[]> testArrays = new ArrayList<int[]>();
@@ -15,21 +16,23 @@ public class ExceptionalTest { ///of ExceptionalLoop
     test.setup();
     System.out.print("Starting tests:");
 
-    boolean foundA, foundB;
-    for (int[] testRun : testArrays) {  //need to use same kind of 'run' loop as above
-      System.out.print("*");
-      time = System.nanoTime();
-      foundA = test.normal(testRun);
-      time = System.nanoTime()-time;
-      normalTiming.add(new Long(time));                             //normal loop
+    for(int i = 0; i < testIterations; i++) {
+      boolean foundA, foundB;
+      for (int[] testRun : testArrays) {  //need to use same kind of 'run' loop as above
+        System.out.print("*");
+        time = System.nanoTime();
+        foundA = test.normal(testRun);
+        time = System.nanoTime()-time;
+        normalTiming.add(new Long(time));                             //normal loop
 
-      time = System.nanoTime();
-      foundB = test.exceptional(testRun);
-      time = System.nanoTime()-time;
-      exceptionalTiming.add(new Long(time));                       //nightmare loop
+        time = System.nanoTime();
+        foundB = test.exceptional(testRun);
+        time = System.nanoTime()-time;
+        exceptionalTiming.add(new Long(time));                       //nightmare loop
 
-      if(foundA != foundB) {
-        System.out.print("Anomilous result found.");
+        if(foundA != foundB) {
+          System.out.print("Anomilous result found.");
+        }
       }
     }
 
@@ -74,10 +77,10 @@ public class ExceptionalTest { ///of ExceptionalLoop
   private void displayResults() {
     System.out.println("\nTest size \t   Normal \t Exceptional: ");
     int runSize = incrementStart;
-    for(int i = 0; i < incrementCount; i++)
+    for(int i = 0; i < incrementCount*testIterations; i++)
     {
       runSize *= loopIncrement;
-      System.out.println("Test " + runSize + ":    \t" + normalTiming.get(i)
+      System.out.println("Test " + testArrays.get(i%incrementCount).length + ":    \t" + normalTiming.get(i)
                        + "             " + exceptionalTiming.get(i) );
     }
   }//print results
