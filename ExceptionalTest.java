@@ -3,8 +3,9 @@ import java.util.*;
 public class ExceptionalTest { ///of ExceptionalLoop
   private static int incrementStart = 10000; //smallest list
   private static int loopIncrement = 10; // small*inc each test
-  private static int incrementCount = 5; // number of tests
-  private static int testIterations = 3;
+  private static int incrementCount = 5; // number of test lengths
+  private static int testIterations = 15;
+  private static int warmup = 3; // tests dropped, warming up VM
   private static Random rng = new Random();
   private static long time;
   private static ArrayList<int[]> testArrays = new ArrayList<int[]>();
@@ -18,8 +19,8 @@ public class ExceptionalTest { ///of ExceptionalLoop
 
     for(int i = 0; i < testIterations; i++) {
       boolean foundA, foundB;
+      System.out.print("*");
       for (int[] testRun : testArrays) {  //need to use same kind of 'run' loop as above
-        System.out.print("*");
         time = System.nanoTime();
         foundA = test.normal(testRun);
         time = System.nanoTime()-time;
@@ -75,14 +76,36 @@ public class ExceptionalTest { ///of ExceptionalLoop
   }//Setup
 
   private void displayResults() {
-    System.out.println("\nTest size \t   Normal \t Exceptional: ");
-    int runSize = incrementStart;
-    for(int i = 0; i < incrementCount*testIterations; i++)
-    {
-      runSize *= loopIncrement;
-      System.out.println("Test " + testArrays.get(i%incrementCount).length + ":    \t" + normalTiming.get(i)
-                       + "             " + exceptionalTiming.get(i) );
+    long[] normalAverage = new long[incrementCount];
+    long[] exceptionalAverage = new long[incrementCount];
+    for(int i = 0; i < incrementCount; i++) {
+      normalAverage[i] = 0l;
+      exceptionalAverage[i] = 0l;
     }
+
+    System.out.println("\nTest size \t   Normal \t Exceptional: ");
+//    int runSize = incrementStart;
+    for(int i = 0; i < (testIterations)*incrementCount; i++) {
+      if(i >= (incrementCount*warmup)) {
+        normalAverage[i%incrementCount] += normalTiming.get(i);
+        exceptionalAverage[i%incrementCount] += exceptionalTiming.get(i);
+
+//        System.out.println("Test " + testArrays.get(i%incrementCount).length + ":    \t" + normalTiming.get(i)
+//                       + "             " + exceptionalTiming.get(i) );
+
+      }
+
+//      runSize *= loopIncrement;
+    }
+
+    System.out.println("\nDIV:"+(testIterations-warmup));
+    for(int i = 0; i < incrementCount; i++) {
+      normalAverage[i] = normalAverage[i]/(testIterations-warmup);
+      exceptionalAverage[i] = exceptionalAverage[i]/(testIterations-warmup);
+      System.out.println("Avg: "+normalAverage[i]+" vs "+exceptionalAverage[i]);
+    }
+
+
   }//print results
 
 }//class
