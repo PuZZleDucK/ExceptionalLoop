@@ -45,3 +45,21 @@ Results for: OpenJDK 64-Bit Server VM / Oracle Corporation (1.7.0_65) running Li
   10,000,000:	   5,113,122	   6,968,561
  100,000,000:	  49,615,951	  72,473,878
 
+Running 105 tests:*********************************************************************************************************
+Results for: OpenJDK 64-Bit Server VM / Sun Microsystems Inc. (1.6.0_33) running Linux (3.17.0-rc5-next-20140918ConfiGDucK-dirty) on amd64 with 4 cores.
+   Run size          Normal       Exceptional
+      10,000:	       7,187	       7,253
+     100,000:	      48,111	      61,261
+   1,000,000:	     455,067	     628,952
+  10,000,000:	   4,342,296	   6,191,507
+ 100,000,000:	  44,621,592	  63,155,417
+
+Running 105 tests:*********************************************************************************************************
+Results for: OpenJDK 64-Bit Server VM / Oracle Corporation (1.7.0_65) running Linux (3.17.0-rc5-next-20140918ConfiGDucK-dirty) on amd64 with 4 cores.
+   Run size          Normal       Exceptional
+      10,000:	       8,200	       7,528
+     100,000:	      57,157	      62,505
+   1,000,000:	     491,680	     662,933
+  10,000,000:	   4,530,886	   6,361,141
+ 100,000,000:	  43,787,070	  60,601,559
+
