@@ -5,12 +5,11 @@ public class ExceptionalTest { ///of ExceptionalLoop
   private static int loopIncrement = 10; // small*inc each test
   private static int incrementCount = 6; // number of tests
   private static Random rng = new Random();
+  private static long time;
 
 
   public static void main(String[] args) throws Exception {
     ExceptionalTest test = new ExceptionalTest();
-    int[] input = {1,2,3};
-    long time = System.currentTimeMillis();
     ArrayList<int[]> testSets = new ArrayList<int[]>();
     ArrayList<int[]> testArrays = new ArrayList<int[]>();
 
