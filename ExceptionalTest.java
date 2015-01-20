@@ -1,50 +1,36 @@
 import java.util.*;
 
 public class ExceptionalTest { ///of ExceptionalLoop
-  private static int incrementStart = 10000; //smallest list
-  private static int loopIncrement = 10; // small*inc each test
   private static int incrementCount = 5; // number of test lengths
-  private static int testIterations = 15;
-  private static int warmup = 3; // tests dropped, warming up VM
-  private static Random rng = new Random();
-  private static long time;
+  private static int testIterations = 55; // number of test repetitions
   private static ArrayList<int[]> testArrays = new ArrayList<int[]>();
   private static ArrayList<Long> normalTiming = new ArrayList<Long>();
   private static ArrayList<Long> exceptionalTiming = new ArrayList<Long>();
-  private static int coreCount = Runtime.getRuntime().availableProcessors();
-  private static String os = System.getProperty("os.name");
-  private static String osVersion = System.getProperty("os.version");
-  private static String arch = System.getProperty("os.arch");
-  private static String jVendor = System.getProperty("java.vendor");
-  private static String jVersion = System.getProperty("java.version");
-  private static String jVm = System.getProperty("java.vm.name");
-
 
   public static void main(String[] args) throws Exception {
     ExceptionalTest test = new ExceptionalTest();
     test.setup();
-    System.out.print("Starting tests:");
-
+    long time;
+    boolean foundA, foundB;
+    System.out.print("Running tests:");
     for(int i = 0; i < testIterations; i++) {
-      boolean foundA, foundB;
       System.out.print("*");
-      for (int[] testRun : testArrays) {  //need to use same kind of 'run' loop as above
+      for (int[] testRun : testArrays) {
         time = System.nanoTime();
-        foundA = test.normal(testRun);
+        foundA = test.normal(testRun);//normal loop
         time = System.nanoTime()-time;
-        normalTiming.add(new Long(time));                             //normal loop
+        normalTiming.add(new Long(time));
 
         time = System.nanoTime();
-        foundB = test.exceptional(testRun);
+        foundB = test.exceptional(testRun);//exceptional loop
         time = System.nanoTime()-time;
-        exceptionalTiming.add(new Long(time));                       //nightmare loop
+        exceptionalTiming.add(new Long(time));
 
-        if(foundA != foundB) {
+        if(foundA != foundB) { //use values so VM can't optomize away
           System.out.print("Anomilous result found.");
         }
       }
     }
-
     test.displayResults();
   }//main
 
@@ -72,51 +58,48 @@ public class ExceptionalTest { ///of ExceptionalLoop
   }
 
   private void setup() {
-    int runSize = incrementStart;
+    Random rng = new Random();
+    int runSize = 10000; //smallest list
     for(int i = 0; i < incrementCount; i++) {
       int[] thisSet = new int[runSize];
       for(int j = 0; j < runSize; j++) {
         thisSet[j] = rng.nextInt();
       }
       testArrays.add(thisSet);
-      runSize *= loopIncrement;
+      runSize *= 10; //next list length * 10;
     }
   }//Setup
 
   private void displayResults() {
+    int warmup = 5; // tests dropped, warming up VM
     long[] normalAverage = new long[incrementCount];
     long[] exceptionalAverage = new long[incrementCount];
     for(int i = 0; i < incrementCount; i++) {
       normalAverage[i] = 0l;
       exceptionalAverage[i] = 0l;
     }
-
-    System.out.println("\nTest size \t   Normal \t Exceptional: ");
-//    int runSize = incrementStart;
     for(int i = 0; i < (testIterations)*incrementCount; i++) {
       if(i >= (incrementCount*warmup)) {
         normalAverage[i%incrementCount] += normalTiming.get(i);
         exceptionalAverage[i%incrementCount] += exceptionalTiming.get(i);
-
-//        System.out.println("Test " + testArrays.get(i%incrementCount).length + ":    \t" + normalTiming.get(i)
-//                       + "             " + exceptionalTiming.get(i) );
-
       }
-
-//      runSize *= loopIncrement;
     }
 
-    System.out.println("\nResults for: "+jVm+" / "+jVendor+" ("+jVersion+") running "
-        +os+" ("+osVersion+") on "+arch+" with "+coreCount+" cores.");
-
-
+    System.out.println("\nResults for: "
+      +System.getProperty("java.vm.name")+" / "
+      +System.getProperty("java.vendor")+" ("
+      +System.getProperty("java.version")+") running "
+      +System.getProperty("os.name")+" ("
+      +System.getProperty("os.version")+") on "
+      +System.getProperty("os.arch")+" with "
+      +Runtime.getRuntime().availableProcessors()+" cores.");
+    System.out.println("Run size   \tNormal        \tExceptional");
     for(int i = 0; i < incrementCount; i++) {
       normalAverage[i] = normalAverage[i]/(testIterations-warmup);
       exceptionalAverage[i] = exceptionalAverage[i]/(testIterations-warmup);
-      System.out.println("Avg: "+normalAverage[i]+" vs "+exceptionalAverage[i]);
+      System.out.println(testArrays.get(i).length+":  \t"+normalAverage[i]
+                         +" \tvs\t "+exceptionalAverage[i]);
     }
-
-
   }//print results
 
 }//class
