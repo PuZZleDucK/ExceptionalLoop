@@ -12,7 +12,7 @@ public class ExceptionalTest { ///of ExceptionalLoop
     test.setup();
     long time;
     boolean foundA, foundB;
-    System.out.print("Running tests:");
+    System.out.print("Running "+testIterations+" tests:");
     for(int i = 0; i < testIterations; i++) {
       System.out.print("*");
       for (int[] testRun : testArrays) {
@@ -93,12 +93,13 @@ public class ExceptionalTest { ///of ExceptionalLoop
       +System.getProperty("os.version")+") on "
       +System.getProperty("os.arch")+" with "
       +Runtime.getRuntime().availableProcessors()+" cores.");
-    System.out.println("Run size   \tNormal        \tExceptional");
+    System.out.println("   Run size          Normal       Exceptional");
     for(int i = 0; i < incrementCount; i++) {
       normalAverage[i] = normalAverage[i]/(testIterations-warmup);
       exceptionalAverage[i] = exceptionalAverage[i]/(testIterations-warmup);
-      System.out.println(testArrays.get(i).length+":  \t"+normalAverage[i]
-                         +" \tvs\t "+exceptionalAverage[i]);
+      System.out.println(String.format("%1$,12d", testArrays.get(i).length)+":\t"
+        +String.format("%1$,12d", normalAverage[i])+"\t"
+        +String.format("%1$,12d", exceptionalAverage[i]));
     }
   }//print results
 
