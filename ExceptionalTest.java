@@ -2,7 +2,7 @@ import java.util.*;
 
 public class ExceptionalTest { ///of ExceptionalLoop
   private static int incrementCount = 5; // number of test lengths
-  private static int testIterations = 55; // number of test repetitions
+  private static int testIterations = 105; // number of test repetitions
   private static ArrayList<int[]> testArrays = new ArrayList<int[]>();
   private static ArrayList<Long> normalTiming = new ArrayList<Long>();
   private static ArrayList<Long> exceptionalTiming = new ArrayList<Long>();
