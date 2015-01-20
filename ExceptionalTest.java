@@ -29,17 +29,14 @@ public class ExceptionalTest { ///of ExceptionalLoop
     System.out.println("Starting tests:");
     boolean foundA, foundB;
     for (int[] testRun : testArrays) {  //need to use same kind of 'run' loop as above
-//      time = System.currentTimeMillis();
       time = System.nanoTime();
       foundA = test.normal(testRun);
       time = System.nanoTime()-time;
-      //System.out.print(found + "\b\b\b\b\b");
       normalTiming.add(new Long(time));                             //normal loop
 
       time = System.nanoTime();
       foundB = test.exceptional(testRun);
       time = System.nanoTime()-time;
-      //System.out.print(found + "\b\b\b\b\b");
       exceptionalTiming.add(new Long(time));                       //nightmare loop
 
       if(foundA != foundB) {
