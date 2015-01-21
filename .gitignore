@@ -14,3 +14,9 @@ hs_err_pid*
 # Saved output #
 *.txt
 
+# Memory dumps #
+*.hprof
+
+# Temp files #
+*~
+
