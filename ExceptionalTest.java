@@ -34,7 +34,8 @@ public class ExceptionalTest {
     test.displayResults();
   }//main
 
-  private boolean normal(int[] input) { //linear search for 0 in list.
+//linear search for 0 in an array.
+  private boolean normal(int[] input) {
     for (int i = 0; i < input.length; i++) {
       if(input[i++] == 0) {
         return true;
@@ -43,7 +44,8 @@ public class ExceptionalTest {
     return false;
   }
 
-  private boolean exceptional(int[] input) { //linear search for 0 in list, the bad way
+//linear search for 0 in an array, the bad way.
+  private boolean exceptional(int[] input) {
     int i = 0;
     while (true) {
       try {
@@ -51,6 +53,20 @@ public class ExceptionalTest {
           return true;
         }
       } catch (ArrayIndexOutOfBoundsException e) {
+        return false;
+      }
+    }
+  }
+
+//linear search for 0 in list, the bad way.
+  private boolean exceptionalArrayList(ArrayList<Integer> input) {
+    int i = 0;
+    while (true) {
+      try {
+        if(input.get(i++) == 0) {
+          return true;
+        }
+      } catch (IndexOutOfBoundsException e) {
         return false;
       }
     }
