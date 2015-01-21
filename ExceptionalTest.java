@@ -86,7 +86,7 @@ public class ExceptionalTest {
   }//Setup
 
   private void displayResults() {
-    int warmup = 5; // tests dropped, warming up VM
+    int warmup = 15; // tests dropped, warming up VM
     long[] normalAverage = new long[incrementCount];
     long[] exceptionalAverage = new long[incrementCount];
     for(int i = 0; i < incrementCount; i++) {
