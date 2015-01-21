@@ -14,6 +14,11 @@ To build and run the tests ready to merge back:
 javac ExceptionalTest.java
 java ExceptionalTest >> README.md 
 ```
+Or if you have memory issues you may need to use the following to run (more room for improvment?):
+```
+java -mx1024m ExceptionalTest >> README.md 
+```
+
 
 Results:
 ========
